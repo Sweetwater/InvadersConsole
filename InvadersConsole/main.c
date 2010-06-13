@@ -9,7 +9,10 @@ const char* playerChar = "ì ";
 const char* enemyChar = "Ñw";
 const char* bulletChar = "ÅE";
 
-
+struct Player {
+	int x;
+	int y;
+};
 
 struct Bullet {
 	int x;
@@ -23,6 +26,14 @@ struct Enemy {
 	char isActive;
 };
 
+#define fieldSize (16)
+#define fieldStringNum (fieldSize * 2 + 1)
+
+char field[fieldSize][fieldStringNum];
+
+
+struct Player player;
+
 
 #define bulletMaxNum (16)
 struct Bullet bullets[bulletMaxNum];
@@ -30,17 +41,6 @@ struct Bullet bullets[bulletMaxNum];
 
 #define enemyNum (16)
 struct Enemy enemys[enemyNum];
-
-
-#define fieldSize (16)
-#define fieldStringNum (fieldSize * 2 + 1)
-
-char field[fieldSize][fieldStringNum];
-
-int playerX;
-int playerY;
-
-
 
 
 void ClearField();
@@ -167,36 +167,36 @@ void DrawField() {
 
 
 void InitializePlayer(int x, int y) {
-	playerX = x;
-	playerY = y;
+	player.x = x;
+	player.y = y;
 }
 void UpdatePlayer(char key) {
 	switch (key) {
-		case '4': playerX--; break;
-		case '6': playerX++; break;
-		//case '8': playerY--; break;
-		//case '2': playerY++; break;
-		case '5': FireBullet(playerX, playerY-1); break;
+		case '4': player.x--; break;
+		case '6': player.x++; break;
+		//case '8': player.y--; break;
+		//case '2': player.y++; break;
+		case '5': FireBullet(player.x, player.y-1); break;
 		default:
 			break;
 	}
 
-	if (playerX < 0) {
-		playerX = 0;
+	if (player.x < 0) {
+		player.x = 0;
 	}
-	else if (playerX > fieldSize-1) {
-		playerX = fieldSize-1;
+	else if (player.x > fieldSize-1) {
+		player.x = fieldSize-1;
 	}
 
-	if (playerY < 0) {
-		playerY = 0;
+	if (player.y < 0) {
+		player.y = 0;
 	}
-	else if (playerY > fieldSize-1) {
-		playerY = fieldSize-1;
+	else if (player.y > fieldSize-1) {
+		player.y = fieldSize-1;
 	}
 }
 void DrawPlayer() {
-	PUT_CHAR_FIELD(field, playerX, playerY, playerChar);
+	PUT_CHAR_FIELD(field, player.x, player.y, playerChar);
 }
 
 
